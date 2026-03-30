@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thalía Echeveste — Makeup & SFX Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #E8DFC8;
+    --sand: #C8A96A;
+    --taupe: #7A8A5A;
+    --dark: #2C3420;
+    --mid: #A09070;
+    --light: #1C2010;
+    --accent: #C8A96A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: transparent;
+    mix-blend-mode: normal;
+    transition: background 0.4s;
+  }
+  nav.scrolled {
+    background: var(--dark);
+    border-bottom: 0.5px solid var(--light);
+    mix-blend-mode: normal;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--cream);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--sand); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 4rem 6rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--cream);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--taupe);
+  }
+  .hero-tagline {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    line-height: 2;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+  .hero-tagline span {
+    display: inline-block;
+    border-bottom: 0.5px solid var(--sand);
+    padding-bottom: 0.1em;
+    margin-right: 0.5rem;
+  }
+  .hero-cta {
+    margin-top: 3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.9s;
+    transition: gap 0.3s;
+  }
+  .hero-cta:hover { gap: 1.5rem; }
+  .hero-cta::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 0.5px;
+    background: var(--dark);
+    transition: width 0.3s;
+  }
+  .hero-cta:hover::after { width: 60px; }
+
+  .hero-right {
+    position: relative;
+    background: #243018;
+    overflow: hidden;
+  }
+  .hero-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #2C3420 0%, #4A5A30 60%, #7A8A5A 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 3rem;
+  }
+  .hero-image-caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--cream);
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+  }
+  .hero-scroll-line {
+    position: absolute;
+    bottom: 3rem;
+    left: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.2s;
+  }
+  .hero-scroll-line span {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+  .scroll-line-bar {
+    width: 0.5px;
+    height: 60px;
+    background: var(--sand);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line-bar::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--taupe);
+    animation: scrollDown 1.5s ease infinite 1.5s;
+  }
+
+  /* ABOUT */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 0;
+    padding: 8rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .about-left {
+    padding-right: 4rem;
+    border-right: 0.5px solid var(--sand);
+  }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 0.5px;
+    background: var(--sand);
+  }
+  .about-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem;
+    font-weight: 300;
+    color: #3A4828;
+    line-height: 1;
+    margin-top: auto;
+  }
+  .about-right {
+    padding-left: 4rem;
+  }
+  .about-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--cream);
+    margin-bottom: 2.5rem;
+  }
+  .about-heading em {
+    font-style: italic;
+    color: var(--taupe);
+  }
+  .about-bio {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--mid);
+    margin-bottom: 2rem;
+  }
+  .about-specialisms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+  .specialism-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    border: 0.5px solid #4A5A30;
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+  }
+  .about-directors {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 0.5px solid #3A4828;
+  }
+  .directors-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 1rem;
+  }
+  .directors-list {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--mid);
+    line-height: 2;
+  }
+
+  /* WORK / PROJECTS */
+  .work {
+    background: var(--dark);
+    padding: 8rem 4rem;
+  }
+  .work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 1400px;
+    margin: 0 auto 5rem;
+  }
+  .work-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+  }
+  .work-heading em {
+    font-style: italic;
+    color: var(--sand);
+  }
+  .work-count {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--taupe);
+  }
+
+  /* FILTER TABS */
+  .filter-tabs {
+    max-width: 1400px;
+    margin: 0 auto 3rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    border: 0.5px solid #243018;
+    background: transparent;
+    padding: 0.5rem 1.25rem;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    transition: all 0.3s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--taupe);
+    color: var(--cream);
+    border-color: var(--taupe);
+  }
+
+  /* FEATURED PROJECTS */
+  .featured-grid {
+    max-width: 1400px;
+    margin: 0 auto 1px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #243018;
+  }
+  .project-card {
+    background: var(--dark);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.4s;
+  }
+  .project-card:hover { background: #1C2010; }
+  .project-card.featured { grid-column: span 2; }
+  .project-year {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 1.5rem;
+  }
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .project-role {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sand);
+    margin-bottom: 1rem;
+  }
+  .project-desc {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #907858;
+    max-width: 50ch;
+  }
+  .project-image-placeholder {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #243018 0%, #3A4828 100%);
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .project-image-placeholder span {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    opacity: 0.5;
+  }
+
+  /* CREDITS TABLE */
+  .credits-section {
+    max-width: 1400px;
+    margin: 1px auto 0;
+  }
+  .credits-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--dark);
+  }
+  .credits-table thead tr {
+    border-bottom: 0.5px solid #243018;
+  }
+  .credits-table th {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-weight: 400;
+  }
+  .credits-table tbody tr {
+    border-bottom: 0.5px solid #1C2010;
+    transition: background 0.3s;
+  }
+  .credits-table tbody tr:hover { background: #1C2010; }
+  .credits-table td {
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+  }
+  .credit-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--cream);
+    font-weight: 400;
+  }
+  .credit-type {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6A7848;
+    margin-top: 0.2rem;
+  }
+  .credit-role {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--sand);
+  }
+  .credit-year {
+    font-size: 0.8rem;
+    color: var(--taupe);
+    white-space: nowrap;
+  }
+  .credit-episodes {
+    font-size: 0.7rem;
+    color: #6A7848;
+    white-space: nowrap;
+  }
+  .credit-badge {
+    display: inline-block;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    border: 0.5px solid #243018;
+    padding: 0.2rem 0.5rem;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* AWARD BANNER */
+  .award-banner {
+    background: #243018;
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-top: 0.5px solid var(--sand);
+    border-bottom: 0.5px solid var(--sand);
+  }
+  .award-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    color: var(--taupe);
+    line-height: 1;
+  }
+  .award-text {
+    flex: 1;
+  }
+  .award-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 0.25rem;
+  }
+  .award-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 8rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: start;
+  }
+  .contact-left {}
+  .contact-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .contact-heading em {
+    font-style: italic;
+    color: var(--taupe);
+  }
+  .contact-intro {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--mid);
+    margin-bottom: 3rem;
+  }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    padding-bottom: 1rem;
+    border-bottom: 0.5px solid var(--light);
+    transition: color 0.3s, gap 0.3s;
+  }
+  .contact-link:hover { color: var(--cream); gap: 1.5rem; }
+  .contact-link-label { flex: 1; }
+  .contact-link-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    color: var(--taupe);
+  }
+
+  .contact-right {}
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .form-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--taupe);
+  }
+  .form-input, .form-textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 0.5px solid var(--sand);
+    padding: 0.75rem 0;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+  }
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--taupe);
+  }
+  .form-input::placeholder, .form-textarea::placeholder {
+    color: var(--sand);
+    font-weight: 300;
+  }
+  .form-textarea { resize: none; min-height: 100px; }
+  .form-submit {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--dark);
+    color: var(--cream);
+    border: none;
+    padding: 1rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, gap 0.3s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { background: var(--taupe); gap: 2rem; }
+  .form-submit::after {
+    content: '→';
+    font-size: 1rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 0.5px solid #243018;
+  }
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--sand);
+    letter-spacing: 0.1em;
+  }
+  .footer-copy {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: #6A7848;
+  }
+  .footer-imdb {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-imdb:hover { color: var(--sand); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollDown {
+    0% { top: -100%; }
+    100% { top: 100%; }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .js-ready .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .js-ready .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 8rem 2rem 4rem; }
+    .hero-right { height: 50vh; }
+    .about { grid-template-columns: 1fr; padding: 4rem 2rem; }
+    .about-left { border-right: none; padding-right: 0; border-bottom: 0.5px solid var(--sand); padding-bottom: 2rem; margin-bottom: 2rem; }
+    .about-right { padding-left: 0; }
+    .work { padding: 4rem 2rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    .contact { grid-template-columns: 1fr; padding: 4rem 2rem; gap: 4rem; }
+    footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+    .award-banner { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Thalía Echeveste</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://www.imdb.com/name/nm7149857/" target="_blank">IMDb</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Makeup & SFX Designer — Film & TV</p>
+    <h1 class="hero-name">Thalía<br><em>Echeveste</em></h1>
+    <a href="#work" class="hero-cta">View my work</a>
+    <div class="hero-scroll-line">
+      <div class="scroll-line-bar"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-placeholder">
+      <p class="hero-image-caption">Add your portrait here</p>
+    </div>
+  </div>
+</section>
+
+<!-- AWARD BANNER -->
+<div class="award-banner">
+  <div class="award-icon">✦</div>
+  <div class="award-text">
+    <p class="award-label">Ariel Award Nomination — 2016</p>
+    <p class="award-title">600 Millas — Best Makeup & Hair Design</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left">
+    <p class="section-label reveal">About</p>
+    <div class="about-number reveal reveal-delay-1">01</div>
+  </div>
+  <div class="about-right">
+    <h2 class="about-heading reveal">Crafting characters<br><em>that live on screen</em></h2>
+    <p class="about-bio reveal reveal-delay-1">
+      Thalía Echeveste is a Makeup SFX, Wigs & Hair, and Tattoo designer based in Mexico, with over a decade of experience in film, television, and advertising. Trained in wig making in London, she brings an international precision to every project — from intimate character work to large-scale special effects.
+    </p>
+    <p class="about-bio reveal reveal-delay-2">
+      Her work spans award-nominated features, major streaming productions, and high-profile editorial campaigns. Known for her meticulous approach and deep understanding of character, Thalía creates looks that are not just technically flawless, but narratively essential.
+    </p>
+    <div class="about-specialisms reveal reveal-delay-3">
+      <span class="specialism-tag">Special Effects Makeup</span>
+      <span class="specialism-tag">Wig Design, Making & Application</span>
+      <span class="specialism-tag">Tattoo Design</span>
+      <span class="specialism-tag">Hair Design</span>
+      <span class="specialism-tag">Character Transformation</span>
+      <span class="specialism-tag">Prosthetics</span>
+    </div>
+    <div class="about-directors reveal reveal-delay-4">
+      <p class="directors-label">Collaborations include</p>
+      <p class="directors-list">
+        Gabriel Ripstein &nbsp;·&nbsp; Alejandro González Iñárritu<br>
+        Alejandra Márquez Abella
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="work-header reveal">
+    <h2 class="work-heading">Selected<br><em>Work</em></h2>
+    <p class="work-count">Film &amp; Television</p>
+  </div>
+  <div class="filter-tabs reveal">
+    <button class="filter-btn active" onclick="filterCredits('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCredits('film', this)">Film</button>
+    <button class="filter-btn" onclick="filterCredits('tv', this)">TV</button>
+    <button class="filter-btn" onclick="filterCredits('sfx', this)">SFX</button>
+  </div>
+
+  <!-- Featured cards -->
+  <div class="featured-grid">
+    <div class="project-card featured reveal">
+      <p class="project-year">S1 2024 · S2 2025 · TV Series · 2 Seasons · 7 Episodes Each</p>
+      <h3 class="project-title">Bandidos</h3>
+      <p class="project-role">Makeup Designer</p>
+      <p class="project-desc">Netflix series. Full makeup department design including SFX, period styling, and character transformation across 7 episodes.</p>
+      <div class="project-image-placeholder"><span>Add production still</span></div>
+    </div>
+    <div class="project-card reveal reveal-delay-1">
+      <p class="project-year">2022 · Feature Film</p>
+      <h3 class="project-title">Bardo</h3>
+      <p class="project-role">Makeup Department Head</p>
+      <p class="project-desc">Directed by Alejandro González Iñárritu. Netflix feature. Department head on one of the most acclaimed Mexican films in recent memory.</p>
+      <div class="project-image-placeholder"><span>Add production still</span></div>
+    </div>
+    <div class="project-card reveal reveal-delay-2">
+      <p class="project-year">2023 · Feature Film</p>
+      <h3 class="project-title">A Million Miles Away</h3>
+      <p class="project-role">Makeup Designer</p>
+      <p class="project-desc">Amazon Studios. The inspiring true story of NASA astronaut José Hernández. Rated 7.3 on IMDb.</p>
+      <div class="project-image-placeholder"><span>Add production still</span></div>
+    </div>
+    <div class="project-card reveal reveal-delay-3">
+      <p class="project-year">2015 · Feature Film</p>
+      <h3 class="project-title">Spectre</h3>
+      <p class="project-role">Key Makeup Artist</p>
+      <p class="project-desc">James Bond. EON Productions. Key makeup artist on one of the most iconic film franchises in cinema history.</p>
+      <div class="project-image-placeholder"><span>Add production still</span></div>
+    </div>
+  </div>
+
+  <!-- Full Credits Table -->
+  <div class="credits-section reveal">
+    <table class="credits-table" id="credits-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Role</th>
+          <th>Year</th>
+          <th>Episodes</th>
+        </tr>
+      </thead>
+      <tbody id="credits-body">
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-left">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="contact-heading reveal">Let's work<br><em>together</em></h2>
+    <p class="contact-intro reveal reveal-delay-1">
+      Available for film, television, advertising, and editorial projects worldwide. Based in Mexico City, open to travel.
+    </p>
+    <div class="contact-links reveal reveal-delay-2">
+      <a href="/cdn-cgi/l/email-protection#2a4f49424f5c595e4f5e424b466a4d474b434604494547" class="contact-link">
+        <span class="contact-link-label">Email</span>
+        <span class="contact-link-value"><span class="__cf_email__" data-cfemail="0663656e6370757263726e676a46616b676f6a2865696b">[email&#160;protected]</span></span>
+      </a>
+      <a href="https://www.imdb.com/name/nm7149857/" target="_blank" class="contact-link">
+        <span class="contact-link-label">IMDb</span>
+        <span class="contact-link-value">Thalía Echeveste</span>
+      </a>
+      <a href="https://www.instagram.com/thalechevestesfx" target="_blank" class="contact-link">
+        <span class="contact-link-label">Instagram</span>
+        <span class="contact-link-value">@thalechevestesfx</span>
+      </a>
+      <a href="#" class="contact-link">
+        <span class="contact-link-label">Based in</span>
+        <span class="contact-link-value">Mexico City, MX</span>
+      </a>
+    </div>
+  </div>
+  <div class="contact-right reveal reveal-delay-2">
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">Your name</label>
+        <input type="text" class="form-input" placeholder="Jane Smith">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="jane@studio.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Project</label>
+        <input type="text" class="form-input" placeholder="Film / TV / Campaign">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell me about your project…"></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send message</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Thalía Echeveste</span>
+  <span class="footer-copy">© 2026 — All rights reserved</span>
+  <a href="https://www.imdb.com/name/nm7149857/" target="_blank" class="footer-imdb">IMDb Profile ↗</a>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Credits data
+  const credits = [
+    { title: 'Bandidos', type: 'TV Series', role: 'Makeup Designer', year: '2024–2025', episodes: '2 seasons · 7 eps each', tags: ['tv'] },
+    { title: 'A Million Miles Away', type: 'Film', role: 'Makeup Designer', year: '2023', episodes: '', tags: ['film'] },
+    { title: 'The Chosen One', type: 'TV Series', role: 'Makeup Designer', year: '2023', episodes: '6 episodes', tags: ['tv'] },
+    { title: 'An Unknown Enemy', type: 'TV Series', role: 'Hair & Makeup Designer / Dept. Head', year: '2022', episodes: '4 episodes', tags: ['tv'] },
+    { title: 'Bardo: False Chronicle of a Handful of Truths', type: 'Film', role: 'Makeup Department Head', year: '2022', episodes: '', tags: ['film'] },
+    { title: 'Anonymously Yours', type: 'Film', role: 'Makeup Designer', year: '2021', episodes: '', tags: ['film'] },
+    { title: 'Somos.', type: 'TV Mini Series', role: 'Makeup Designer', year: '2021', episodes: '5 episodes', tags: ['tv'] },
+    { title: 'The House of Flowers: The Movie', type: 'Film', role: 'Makeup Designer', year: '2021', episodes: '', tags: ['film'] },
+    { title: 'Blue of Noon', type: 'Film', role: 'Special Makeup Effects Artist', year: '2020', episodes: '', tags: ['film','sfx'] },
+    { title: 'Dalia', type: 'Short Film', role: 'Special Makeup Effects Artist', year: '2020', episodes: '', tags: ['film','sfx'] },
+    { title: 'If I Were You', type: 'Film', role: 'Makeup Designer', year: '2018', episodes: '', tags: ['film'] },
+    { title: 'Bel Canto', type: 'Film', role: 'Assistant Makeup Artist', year: '2018', episodes: '', tags: ['film'] },
+    { title: 'Helena', type: 'Film', role: 'Makeup Artist', year: '2018', episodes: '', tags: ['film'] },
+    { title: 'Gringo', type: 'Film', role: 'Assistant Makeup Artist', year: '2018', episodes: '', tags: ['film'] },
+    { title: 'Las 13 Esposas de Wilson Fernandez', type: 'TV Series', role: 'Makeup Artist / Designer', year: '2017', episodes: '13 episodes', tags: ['tv'] },
+    { title: 'En vida', type: 'Short Film', role: 'Makeup Department Head', year: '2017', episodes: '', tags: ['film','sfx'] },
+    { title: 'Panamerican Machinery', type: 'Film', role: 'Special Makeup Effects Artist', year: '2016', episodes: '', tags: ['film','sfx'] },
+    { title: 'Km 31-2', type: 'Film', role: 'Workshop Crew', year: '2016', episodes: '', tags: ['film'] },
+    { title: 'Point Break', type: 'Film', role: 'Makeup Artist: Venezuela & Mexico', year: '2015', episodes: '', tags: ['film'] },
+    { title: 'The Heirs', type: 'Film', role: 'Assistant Makeup Artist', year: '2015', episodes: '', tags: ['film'] },
+    { title: 'Spectre', type: 'Film', role: 'Key Makeup Artist', year: '2015', episodes: '', tags: ['film'] },
+    { title: 'Texas Rising', type: 'TV Mini Series', role: 'Animal Props', year: '2015', episodes: '1 episode', tags: ['tv'] },
+    { title: 'The Thin Yellow Line', type: 'Film', role: 'Animal Props', year: '2015', episodes: '', tags: ['film'] },
+    { title: '600 Miles', type: 'Film', role: 'Makeup Designer', year: '2015', episodes: '', tags: ['film'] },
+    { title: 'Royal Pains', type: 'TV Series', role: 'Special Makeup Effects Artist', year: '2014', episodes: '2 episodes', tags: ['tv','sfx'] },
+    { title: 'El otro Cochiloco', type: 'Film', role: 'Makeup Designer', year: '2013', episodes: '', tags: ['film'] },
+    { title: 'La vida de una diva', type: 'TV Series', role: 'Makeup Designer', year: '2013', episodes: '5 episodes', tags: ['tv'] },
+    { title: 'El Shaka', type: 'TV Series', role: 'Special Makeup Effects Artist', year: '2012', episodes: '23 episodes', tags: ['tv','sfx'] },
+    { title: 'Las Zetas', type: 'Video', role: 'Makeup', year: '2012', episodes: '', tags: ['film'] },
+    { title: 'Historias Delirantes', type: 'TV Series', role: 'Special Makeup Effects Artist', year: '2011–2014', episodes: '21 episodes', tags: ['tv','sfx'] },
+  ];
+
+  function renderCredits(filter) {
+    const tbody = document.getElementById('credits-body');
+    const filtered = filter === 'all' ? credits : credits.filter(c => c.tags.includes(filter));
+    tbody.innerHTML = filtered.map(c => `
+      <tr>
+        <td>
+          <div class="credit-title">${c.title}</div>
+          <div class="credit-type">${c.type}</div>
+        </td>
+        <td><span class="credit-role">${c.role}</span></td>
+        <td><span class="credit-year">${c.year}</span></td>
+        <td><span class="credit-episodes">${c.episodes}</span></td>
+      </tr>
+    `).join('');
+  }
+
+  function filterCredits(filter, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCredits(filter);
+  }
+
+  renderCredits('all');
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal — only hide elements if JS is running
+  document.body.classList.add('js-ready');
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.
